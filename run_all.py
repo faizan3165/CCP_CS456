@@ -1,13 +1,12 @@
 """CS-456 CCP — single-command entry point for the whole pipeline.
 
 Examples:
-    python run_all.py                 # run all 5 tasks (real data, then build report)
+    python run_all.py                 # run all 5 tasks on bundled real data, then report
     python run_all.py --task 1        # run only Task 1
-    python run_all.py --data synthetic  # force fully-offline synthetic data
     python run_all.py --no-report     # skip the Task-5 report generation
 
-Every task writes its visual outputs under outputs/task<N>/ and a machine-readable
-summary to outputs/results.json.
+All inputs are real, bundled, cited images (see README). Every task writes its visual
+outputs under outputs/task<N>/ and a machine-readable summary to outputs/results.json.
 """
 
 import argparse
@@ -38,16 +37,12 @@ def main():
     parser = argparse.ArgumentParser(description="CS-456 CCP pipeline runner")
     parser.add_argument("--task", default="all", choices=["all", "1", "2", "3", "4"],
                         help="which task to run (default: all)")
-    parser.add_argument("--data", default=None, choices=["auto", "synthetic", "real"],
-                        help="data-sourcing mode (overrides config.DATA_MODE)")
     parser.add_argument("--no-report", action="store_true", help="skip Task-5 report")
     args = parser.parse_args()
 
-    if args.data:
-        config.DATA_MODE = args.data
     set_seed()
     ensure_dirs()
-    log(f"CS-456 CCP pipeline | task={args.task} | data_mode={config.DATA_MODE}")
+    log(f"CS-456 CCP pipeline | task={args.task} | real bundled data")
 
     todo = ["1", "2", "3", "4"] if args.task == "all" else [args.task]
     results = {}

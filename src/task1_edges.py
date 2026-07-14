@@ -66,7 +66,7 @@ def _process_image(name, path):
         edges = _canny(blurred, cfg["low"], cfg["high"])
         canny_maps[cfg["name"]] = edges
         canny_rows.append([name, cfg["name"], f'{cfg["low"]}/{cfg["high"]}',
-                           f"{100 * _edge_density(edges):.2f}%"])
+                           f"{100 * _edge_density(edges):.2f}%", cfg["qual"]])
     show_row(
         [bgr_to_rgb(img)] + [canny_maps[c["name"]] for c in config.T1_CANNY_CONFIGS],
         ["original"] + [f'Canny {c["name"]} ({c["low"]},{c["high"]})' for c in config.T1_CANNY_CONFIGS],
@@ -84,7 +84,7 @@ def _process_image(name, path):
         save_bgr(config.OUT_T1 / f"{name}_hough_{cfg['name']}.png", overlays[cfg["name"]])
         hough_rows.append([name, cfg["name"],
                            f'{cfg["threshold"]}/{cfg["min_line_length"]}/{cfg["max_line_gap"]}',
-                           n, f"{mean_len:.0f}px"])
+                           n, f"{mean_len:.0f}px", cfg["qual"]])
 
     primary = config.T1_HOUGH_PRIMARY
     show_row(
@@ -105,19 +105,33 @@ def run():
         all_canny += cr
         all_hough += hr
 
-    # Combined parameter-experiment tables (required deliverable).
+    # Combined parameter-experiment tables WITH qualitative outcomes (required deliverable).
     save_table_figure(
-        all_canny, ["image", "config", "low/high", "edge density"],
+        all_canny, ["image", "config", "low/high", "edge density", "qualitative outcome"],
         config.OUT_T1 / "task1_param_experiments_canny.png",
         title="Task 1 — Canny threshold experiments",
+        col_widths=[0.12, 0.11, 0.11, 0.13, 0.53],
     )
     save_table_figure(
-        all_hough, ["image", "config", "thr/minLen/maxGap", "#lines", "mean len"],
+        all_hough, ["image", "config", "thr/minLen/maxGap", "#lines", "mean len", "qualitative outcome"],
         config.OUT_T1 / "task1_param_experiments_hough.png",
         title="Task 1 — Probabilistic Hough experiments",
+        col_widths=[0.11, 0.10, 0.17, 0.08, 0.10, 0.44],
     )
+
+    # Representative "edge detection quality score" for the Task-5 metrics table.
+    bal = [float(r[3].rstrip("%")) for r in all_canny if r[1] == "balanced"]
+    prim = [r[3] for r in all_hough if r[1] == config.T1_HOUGH_PRIMARY]
+    edge_quality = {
+        "canny_balanced_edge_density_pct": round(sum(bal) / len(bal), 2) if bal else None,
+        "hough_primary_lines_total": int(sum(prim)) if prim else None,
+        "hough_primary_cfg": config.T1_HOUGH_PRIMARY,
+    }
+    log(f"  edge-quality: balanced density={edge_quality['canny_balanced_edge_density_pct']}%  "
+        f"{config.T1_HOUGH_PRIMARY}-Hough lines={edge_quality['hough_primary_lines_total']}")
     log(f"  wrote Task 1 outputs to {config.OUT_T1}")
-    return {"images": [n for n, _ in images], "canny": all_canny, "hough": all_hough}
+    return {"images": [n for n, _ in images], "canny": all_canny, "hough": all_hough,
+            "edge_quality": edge_quality}
 
 
 if __name__ == "__main__":

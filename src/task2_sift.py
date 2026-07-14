@@ -1,7 +1,7 @@
 """Task 2 — SIFT Feature Extraction & Matching  [CLO-3].
 
-Two views of the same scene (OpenCV's real box / box_in_scene pair — genuine
-viewpoint + clutter change):
+Two real views of the same outdoor scene (Oxford VGG "graffiti" wall, views 1 & 3 —
+a genuine viewpoint change of one landmark):
   1. Detect SIFT keypoints + descriptors in both images.
   2. Draw rich keypoints (size + orientation).
   3. Match descriptors (FLANN by default) and apply Lowe's ratio test (0.75).

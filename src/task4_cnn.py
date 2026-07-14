@@ -1,7 +1,8 @@
 """Task 4 — CNN-Based Scene Classification (PyTorch transfer learning)  [CLO-4].
 
-  * Backbone: pretrained ResNet-18 (torchvision). Frozen except layer4 + the new
-    classification head, which are fine-tuned on our 4 outdoor scene classes.
+  * Backbone: pretrained ResNet-18 (torchvision), fully frozen. Only the new final
+    classification head is fine-tuned on our 4 outdoor scene classes (a linear probe),
+    matching the brief's "fine-tune the final classification layers".
   * Data augmentation: random horizontal flip, rotation, colour jitter.
   * Reports: training/validation curves, confusion matrix, per-class precision/recall.
   * Interpretability: Grad-CAM heatmaps for 2 correctly and 1 incorrectly classified
@@ -62,11 +63,9 @@ def _loaders():
 
 def _build_model(num_classes):
     model = resnet18(weights=ResNet18_Weights.DEFAULT)
-    for p in model.parameters():          # freeze backbone ...
+    for p in model.parameters():          # freeze the ENTIRE pretrained backbone
         p.requires_grad = False
-    for p in model.layer4.parameters():   # ... fine-tune last block ...
-        p.requires_grad = True
-    model.fc = nn.Linear(model.fc.in_features, num_classes)  # ... + new head
+    model.fc = nn.Linear(model.fc.in_features, num_classes)  # only this new head trains
     return model
 
 
@@ -109,6 +108,9 @@ class GradCAM:
         self.grads = gout[0].detach()
 
     def __call__(self, x, class_idx):
+        # Backbone is frozen, so make the INPUT require grad; otherwise the target
+        # conv activations are not in the autograd graph and Grad-CAM would be empty.
+        x = x.clone().detach().requires_grad_(True)
         self.model.zero_grad()
         out = self.model(x)
         out[0, class_idx].backward()

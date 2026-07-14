@@ -1,121 +1,184 @@
 {
   "task1": {
     "images": [
-      "building",
-      "road"
+      "straight_road",
+      "curved_road",
+      "lane_switch"
     ],
     "canny": [
       [
-        "building",
+        "straight_road",
         "loose",
         "30/90",
-        "7.79%"
+        "2.00%",
+        "many weak edges: foliage/road-texture clutter"
       ],
       [
-        "building",
+        "straight_road",
         "balanced",
         "50/150",
-        "5.72%"
+        "0.95%",
+        "clean lane + structure edges (1:3 ratio)"
       ],
       [
-        "building",
+        "straight_road",
         "strict",
         "100/200",
-        "4.25%"
+        "0.60%",
+        "only strong edges; faint/far lanes dropped"
       ],
       [
-        "road",
+        "curved_road",
         "loose",
         "30/90",
-        "1.00%"
+        "2.09%",
+        "many weak edges: foliage/road-texture clutter"
       ],
       [
-        "road",
+        "curved_road",
         "balanced",
         "50/150",
-        "0.95%"
+        "1.25%",
+        "clean lane + structure edges (1:3 ratio)"
       ],
       [
-        "road",
+        "curved_road",
         "strict",
         "100/200",
-        "0.95%"
+        "0.52%",
+        "only strong edges; faint/far lanes dropped"
+      ],
+      [
+        "lane_switch",
+        "loose",
+        "30/90",
+        "1.92%",
+        "many weak edges: foliage/road-texture clutter"
+      ],
+      [
+        "lane_switch",
+        "balanced",
+        "50/150",
+        "1.14%",
+        "clean lane + structure edges (1:3 ratio)"
+      ],
+      [
+        "lane_switch",
+        "strict",
+        "100/200",
+        "0.31%",
+        "only strong edges; faint/far lanes dropped"
       ]
     ],
     "hough": [
       [
-        "building",
+        "straight_road",
         "fine",
         "40/40/10",
-        204,
-        "81px"
+        28,
+        "109px",
+        "many short, precise segments"
       ],
       [
-        "building",
+        "straight_road",
         "coarse",
         "60/60/20",
-        243,
-        "98px"
+        26,
+        "114px",
+        "fewer, longer dominant lines"
       ],
       [
-        "building",
+        "straight_road",
         "gappy",
         "30/30/40",
-        509,
-        "144px"
+        56,
+        "140px",
+        "bridges dashed lanes but merges separate lines"
       ],
       [
-        "road",
+        "curved_road",
         "fine",
         "40/40/10",
-        19,
-        "154px"
+        31,
+        "89px",
+        "many short, precise segments"
       ],
       [
-        "road",
+        "curved_road",
         "coarse",
         "60/60/20",
-        12,
-        "253px"
+        34,
+        "104px",
+        "fewer, longer dominant lines"
       ],
       [
-        "road",
+        "curved_road",
         "gappy",
         "30/30/40",
-        16,
-        "240px"
+        130,
+        "110px",
+        "bridges dashed lanes but merges separate lines"
+      ],
+      [
+        "lane_switch",
+        "fine",
+        "40/40/10",
+        27,
+        "109px",
+        "many short, precise segments"
+      ],
+      [
+        "lane_switch",
+        "coarse",
+        "60/60/20",
+        24,
+        "119px",
+        "fewer, longer dominant lines"
+      ],
+      [
+        "lane_switch",
+        "gappy",
+        "30/30/40",
+        95,
+        "96px",
+        "bridges dashed lanes but merges separate lines"
       ]
-    ]
+    ],
+    "edge_quality": {
+      "canny_balanced_edge_density_pct": 1.11,
+      "hough_primary_lines_total": 86,
+      "hough_primary_cfg": "fine"
+    }
   },
   "task2": {
-    "kp_a": 604,
-    "kp_b": 969,
-    "good": 80,
-    "match_ratio": 0.13245033112582782,
+    "kp_a": 2674,
+    "kp_b": 3506,
+    "good": 539,
+    "match_ratio": 0.20157068062827224,
     "ratio_sweep": [
       [
         0.5,
-        44
+        87
       ],
       [
         0.6,
-        62
+        217
       ],
       [
         0.7,
-        74
+        404
       ],
       [
         0.75,
-        80
+        539
       ],
       [
         0.8,
-        97
+        704
       ],
       [
         0.9,
-        189
+        1212
       ]
     ]
   },
@@ -123,83 +186,77 @@
     "stats": [
       [
         "1-2",
-        373,
-        "95.2%  (355/373)",
+        927,
+        "89.5%  (830/927)",
         "ok"
       ],
       [
         "2-3",
-        519,
-        "96.1%  (499/519)",
-        "ok"
-      ],
-      [
-        "3-4",
-        501,
-        "94.2%  (472/501)",
+        766,
+        "82.5%  (632/766)",
         "ok"
       ]
     ],
     "panorama": [
-      642,
-      800,
+      1095,
+      2696,
       3
     ],
-    "mean_inlier_ratio": 95.16666666666667,
+    "mean_inlier_ratio": 86.0,
     "blend": "multiband",
-    "ref_frame": 3
+    "ref_frame": 2
   },
   "task4": {
     "history": {
       "train_loss": [
-        0.35668972618877887,
-        0.12293573040515185,
-        0.0654745852574706,
-        0.04726016641361639,
-        0.0464380495948717,
-        0.047392438631504774,
-        0.041110505489632486,
-        0.04900434898445383
+        1.1111833602190018,
+        0.746077811717987,
+        0.572792436182499,
+        0.4929745852947235,
+        0.4286747545003891,
+        0.42680837363004687,
+        0.36239182502031325,
+        0.3818103663623333
       ],
       "train_acc": [
-        0.875,
-        0.9625,
-        0.9796875,
-        0.98125,
-        0.9875,
-        0.9828125,
-        0.9890625,
-        0.9828125
+        0.5515625,
+        0.778125,
+        0.81875,
+        0.8421875,
+        0.8671875,
+        0.859375,
+        0.9,
+        0.8859375
       ],
       "val_loss": [
-        0.5448156706988811,
-        0.33330686716362834,
-        0.2692159862878422,
-        0.4632435271826883,
-        0.2520633414387703,
-        0.3668656988690297,
-        0.2831205053953454,
-        0.3995434958487749
+        0.8117115994294485,
+        0.5968988537788391,
+        0.4717349161704381,
+        0.3848167657852173,
+        0.3458109299341838,
+        0.3281335011124611,
+        0.34098020444313687,
+        0.2791497011979421
       ],
       "val_acc": [
-        0.890625,
+        0.7552083333333334,
+        0.765625,
+        0.8697916666666666,
+        0.9166666666666666,
         0.9270833333333334,
-        0.9322916666666666,
-        0.9114583333333334,
-        0.9375,
-        0.9375,
-        0.9375,
-        0.9270833333333334
+        0.9166666666666666,
+        0.9166666666666666,
+        0.9375
       ]
     },
     "best_acc": 0.9375,
-    "final_acc": 0.9270833333333334,
+    "final_acc": 0.9375,
     "confusion": [
       [
-        40,
+        46,
         0,
-        1,
-        7
+        2,
+        0
       ],
       [
         0,
@@ -208,53 +265,53 @@
         0
       ],
       [
-        0,
-        0,
-        46,
-        2
+        6,
+        2,
+        40,
+        0
       ],
       [
-        3,
+        1,
         0,
         0,
-        45
+        47
       ]
     ],
     "per_class": [
       [
-        "buildings",
+        "building",
+        "0.87",
+        "0.96",
+        "0.91",
+        48
+      ],
+      [
+        "pedestrian_zone",
+        "0.96",
+        "0.98",
+        "0.97",
+        48
+      ],
+      [
+        "road",
         "0.93",
         "0.83",
         "0.88",
         48
       ],
       [
-        "forest",
+        "vegetation",
         "1.00",
         "0.98",
         "0.99",
         48
-      ],
-      [
-        "mountain",
-        "0.96",
-        "0.96",
-        "0.96",
-        48
-      ],
-      [
-        "street",
-        "0.83",
-        "0.94",
-        "0.88",
-        48
       ]
     ],
     "classes": [
-      "buildings",
-      "forest",
-      "mountain",
-      "street"
+      "building",
+      "pedestrian_zone",
+      "road",
+      "vegetation"
     ],
     "target_met": true
   }
